@@ -9,6 +9,8 @@ The differences between Befunge-93 and bfunj are listed below:
 - , command is removed
 - & command is removed
 - ~ command is removed
+- g command is removed
+- p command is removed
 - L command added
 
 == L command ==

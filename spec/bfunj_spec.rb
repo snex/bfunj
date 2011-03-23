@@ -9,21 +9,19 @@ describe BFunj do
   describe BFunj, "#load_file" do
     it "loads a bfunj file" do
       @bfunj.load_file @testfiles[0]
-      data = File.open(@testfiles[0]).readlines.map { |l| l.chomp }
-      @bfunj.data.should == data
-      @bfunj.height.should == data.size
-      @bfunj.width.should == data[0].size
+      program = File.open(@testfiles[0]).readlines.map { |l| l.chomp }
+      @bfunj.program.should == program
     end
   end
   
   describe BFunj, "#run" do
     it "runs a bfunj program" do
       @testfiles.each do |test_file|
-        bfunj = BFunj.new
+        bfunj = BFunj.new( { 1 => 100 } )
         expected_result = File.basename(test_file, '.bfunj').to_i
         bfunj.load_file test_file
-        result = bfunj.run
-        result.should == expected_result
+        bfunj.run
+        bfunj.stack.inject { |sum, acc| sum += acc }.should == expected_result
       end
     end
   end
