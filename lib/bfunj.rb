@@ -36,8 +36,10 @@ class BFunj
       command = @program[@pc[:row]][@pc[:col]]
       process_command command
       advance_pc
-      steps += 1
-      break if steps > MAX_STEPS || @done
+      if MAX_STEPS != 0
+        steps += 1
+        break if steps > MAX_STEPS || @done
+      end
     end
   end
 
@@ -69,28 +71,30 @@ class BFunj
     when '+'
       @stack.push( @stack.pop + @stack.pop )
     when '-'
-      @stack.push( @stack.pop - @stack.pop )
+      first = @stack.pop
+      second = @stack.pop
+      @stack.push( second - first )
     when '*'
       @stack.push( @stack.pop * @stack.pop )
     when '/'
       first = @stack.pop
       second = @stack.pop
-      @stack.push( (second == 0) ? 0 : first / second )
+      @stack.push( (first == 0) ? 0 : second / first )
     when '%'
       first = @stack.pop
       second = @stack.pop
-      @stack.push( (second == 0) ? 0 : first % second )
+      @stack.push( (first == 0) ? 0 : second % first )
     when '!'
       @stack.push( @stack.pop == 0 ? 1 : 0 )
     when '`'
       @stack.push( (@stack.pop > @stack.pop) ? 1 : 0 )
     when ':'
       @stack.push( @stack.last )
-    when '\\'
+    when "\\"
       first = @stack.pop
       second = @stack.pop
-      @stack.push( second )
       @stack.push( first )
+      @stack.push( second )
     when '$'
       @stack.pop
     when '#'
@@ -101,6 +105,9 @@ class BFunj
       @output_pipe.puts( @stack.pop )
     when '@'
       @done = true
+    when ' ' # do nothing
+    else
+      raise "Bad command: #{command} at #{@pc.inspect}."
     end
   end
 
