@@ -17,7 +17,7 @@ describe BFunj do
   describe BFunj, "#run" do
     it "runs a bfunj program" do
       @testfiles.each do |test_file|
-        bfunj = BFunj.new
+        bfunj = BFunj.new( IO.popen( 'echo 2' ), IO.new( IO.sysopen( '/dev/null', 'w' ), 'w' ) )
         expected_result = File.basename(test_file, '.bfunj').to_i
         bfunj.load_file test_file
         bfunj.run

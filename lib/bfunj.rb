@@ -13,11 +13,13 @@ class BFunj
   attr_accessor :program
   attr_reader   :stack
 
-  def initialize
+  def initialize input_pipe = $stdin, output_pipe = $stdout
     @pc = { :row => 0, :col => 0 }
     @direction = :left
     @distance = 1
     @stack = Stack.new
+    @input_pipe = input_pipe
+    @output_pipe = output_pipe
   end
 
   def load_file filename
@@ -93,6 +95,10 @@ class BFunj
       @stack.pop
     when '#'
       @distance = 2
+    when '&'
+      @stack.push( @input_pipe.getc.to_i )
+    when '.'
+      @output_pipe.puts( @stack.pop )
     when '@'
       @done = true
     end

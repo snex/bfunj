@@ -15,3 +15,9 @@ b = BFunj.new()
 b.load_file 'filename.bfunj'
 b.run
 puts b.stack.inspect
+
+You can also change the input/output IO devices used by passing in parameters
+to #new, as so:
+b = BFunj.new( IO.popen( 'echo 2' ), IO.new( IO.sysopen( '/dev/null', 'w' ), 'w' ) )
+This will simply take "2" as an input command should a "&" command show up, and any
+output will be dumped into /dev/null. Defaults are $stdin and $stdout respectively.
