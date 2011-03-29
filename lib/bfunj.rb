@@ -10,14 +10,13 @@ end
 class BFunj
   MAX_STEPS = 10000
 
-  attr_accessor :program, :memory
+  attr_accessor :program
   attr_reader   :stack
 
-  def initialize memory = {}
+  def initialize
     @pc = { :row => 0, :col => 0 }
     @direction = :left
     @distance = 1
-    @memory = memory
     @stack = Stack.new
   end
 
@@ -94,15 +93,9 @@ class BFunj
       @stack.pop
     when '#'
       @distance = 2
-    when 'L'
-      @stack.push( load_memory( @stack.pop ) )
     when '@'
       @done = true
     end
-  end
-
-  def load_memory key
-    @memory[key] || 0
   end
 
   def advance_pc

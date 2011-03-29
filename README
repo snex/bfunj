@@ -5,20 +5,13 @@ The official Befunge-93 specification can be found at http://catseye.tc/projects
 The differences between Befunge-93 and bfunj are listed below:
 
 - " command is removed
-- . command is removed
 - , command is removed
-- & command is removed
 - ~ command is removed
 - g command is removed
 - p command is removed
-- L command added
-
-== L command ==
-The L command will pop a value from the stack, and use that value as a hash key lookup for an independent memory hash that can be set at load time. If the key is found, the value corresponding to it will be pushed onto the stack.
 
 How to use:
-memory = { 1 => 2, 3 => 4, 5 => 6 }
-b = BFunj.new( memory )
+b = BFunj.new()
 b.load_file 'filename.bfunj'
 b.run
 puts b.stack.inspect
