@@ -1,4 +1,7 @@
+Rakefile
 coverage
 autotest
+tmp
 coverage/**/*
 autotest/**/*
+tmp/**/*
