@@ -16,8 +16,9 @@ b.load_file 'filename.bfunj'
 b.run
 puts b.stack.inspect
 
-You can also change the input/output IO devices used by passing in parameters
-to #new, as so:
-b = BFunj.new( IO.popen( 'echo 2' ), IO.new( IO.sysopen( '/dev/null', 'w' ), 'w' ) )
-This will simply take "2" as an input command should a "&" command show up, and any
-output will be dumped into /dev/null. Defaults are $stdin and $stdout respectively.
+Options that can be passed to #new:
+
+:input_stream - Defines the input stream, must be a kind_of?(IO). Default is $stdin
+:output_stream - Defines the output stream, must be a kind_of?(IO). Default is $stdout
+:max_steps - The maximum number of steps to take before program is forced to halt. this prevents infinite loops if. Default is 0 (never force halt).
+:filename - Auto-loads the given filename. Default is empty and you must manually load a file with #load_file.
