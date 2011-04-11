@@ -17,9 +17,11 @@ describe BFunj do
   describe BFunj, "#run" do
     it "runs a bfunj program" do
       @testfiles.each do |test_file|
-        bfunj = BFunj.new( IO.popen( 'echo 5' ), IO.new( IO.sysopen( '/dev/null', 'w' ), 'w' ) )
+        bfunj = BFunj.new( { :input_stream  => IO.popen( 'echo 5' ),
+                             :output_stream => IO.new( IO.sysopen( '/dev/null', 'w' ), 'w' ),
+                             :max_steps     => 10000,
+                             :filename      => test_file } )
         expected_result = File.basename(test_file, '.bfunj').to_i
-        bfunj.load_file test_file
         bfunj.run
         bfunj.stack.inject { |sum, acc| sum += acc }.should == expected_result
       end

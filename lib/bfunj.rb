@@ -8,7 +8,6 @@ class Stack < Array
 end
 
 class BFunj
-  MAX_STEPS = 10000
   COMMAND_MAP = { '>'  => :go_left,
                   '<'  => :go_right,
                   '^'  => :go_up,
@@ -31,16 +30,17 @@ class BFunj
                   '.'  => :output,
                   '@'  => :stop }.freeze
 
-  attr_accessor :program
-  attr_reader   :stack
+  attr_reader   :stack, :program
 
-  def initialize input_stream = $stdin, output_stream = $stdout
+  def initialize options = {}
     @pc = { :row => 0, :col => 0 }
     @direction = :left
     @distance = 1
     @stack = Stack.new
-    @input_stream = input_stream
-    @output_stream = output_stream
+    @max_steps = options[:max_steps] || 0
+    @input_stream = options[:input_stream] || $stdin
+    @output_stream = options[:output_stream] || $stdout
+    load_file(options[:filename]) if options[:filename]
   end
 
   def load_file filename
@@ -49,7 +49,7 @@ class BFunj
     @width = @program[0].size
   end
 
-  def run max_steps = MAX_STEPS
+  def run
     steps = 0
     @done = false
     loop do
@@ -57,9 +57,9 @@ class BFunj
       command = @program[@pc[:row]][@pc[:col]]
       process_command command
       advance_pc
-      if MAX_STEPS != 0
+      if @max_steps != 0
         steps += 1
-        break if steps > MAX_STEPS || @done
+        break if steps > @max_steps || @done
       end
     end
   end
