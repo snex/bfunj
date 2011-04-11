@@ -2,8 +2,10 @@ Rakefile
 coverage
 autotest
 tmp
+pkg
 Manifest
 *.gemspec
 coverage/**/*
 autotest/**/*
 tmp/**/*
+pgk/**/*
