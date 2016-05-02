@@ -59,8 +59,9 @@ class BFunj
       advance_pc
       if @max_steps != 0
         steps += 1
-        break if steps > @max_steps || @done
+        break if steps > @max_steps
       end
+      break if @done
     end
   end
 
